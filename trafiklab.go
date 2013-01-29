@@ -1,7 +1,7 @@
 package main
 
 import (
-    "fmt"
+	"fmt"
 	"encoding/json"
 )
 
@@ -14,7 +14,7 @@ type train struct {
 
 func Parse(body []byte) []train {
 	var f interface{}
-    json.Unmarshal(body, &f)
+	json.Unmarshal(body, &f)
 	var r train
 	v := m(m(m(m(f)["DPS"])["Trains"])["DpsTrain"].([]interface{})[0])
 	r.Destination = v["Destination"].(string)
