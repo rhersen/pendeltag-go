@@ -13,15 +13,27 @@ type train struct {
 }
 
 func Parse(body []byte) []train {
+	r := []train{}
+	for _, t := range getJsonTrains(body) {
+		r = append(r, createTrain(t))
+	}
+	return r
+}
+
+func getJsonTrains(body []byte) []interface{} {
 	var f interface{}
 	json.Unmarshal(body, &f)
+	return m(m(m(f)["DPS"])["Trains"])["DpsTrain"].([]interface{})
+}
+
+func createTrain(j interface{}) train {
 	var r train
-	v := m(m(m(m(f)["DPS"])["Trains"])["DpsTrain"].([]interface{})[0])
+	v := m(j)
 	r.Destination = v["Destination"].(string)
 	r.LineNumber = int(v["LineNumber"].(float64))
 	r.JourneyDirection = int(v["JourneyDirection"].(float64))
 	r.TransportMode = v["TransportMode"].(string)
-	return []train{r}
+	return r
 }
 
 func m(j interface{}) map[string]interface{} {

@@ -17,8 +17,8 @@ func TestShouldReturnTrains(t *testing.T) {
 	parsed := Parse(fixture)
 	first := parsed[0]
 	assertEqualsString("Södertälje centrum", first.Destination)
-	//fifth := parsed[4]
-	//assertEqualsString("Märsta", fifth.Destination)
+	fifth := parsed[4]
+	assertEqualsString("Märsta", fifth.Destination)
 }
 
 func TestShouldReturnTrainSpecificFields(t *testing.T) {
