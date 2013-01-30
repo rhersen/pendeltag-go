@@ -10,6 +10,15 @@ type train struct {
 	LineNumber int
 	JourneyDirection int
 	TransportMode string
+	Stops []stop
+}
+
+type stop struct {
+	StopAreaNumber string
+	StopAreaName string
+	TimeTabledDateTime string
+	ExpectedDateTime string
+	DisplayTime string
 }
 
 func Parse(body []byte) []train {
@@ -23,7 +32,13 @@ func Parse(body []byte) []train {
 func getJsonTrains(body []byte) []interface{} {
 	var f interface{}
 	json.Unmarshal(body, &f)
-	return m(m(m(f)["DPS"])["Trains"])["DpsTrain"].([]interface{})
+	trains := m(m(f)["DPS"])["Trains"]
+
+	if trains == nil {
+		return nil
+	}
+
+	return m(trains)["DpsTrain"].([]interface{})
 }
 
 func createTrain(j interface{}) train {
@@ -33,7 +48,18 @@ func createTrain(j interface{}) train {
 	r.LineNumber = int(v["LineNumber"].(float64))
 	r.JourneyDirection = int(v["JourneyDirection"].(float64))
 	r.TransportMode = v["TransportMode"].(string)
+	r.Stops = []stop{createStop(v)}
 	return r
+}
+
+func createStop(v map[string]interface{}) stop {
+	var s stop
+	s.StopAreaNumber = v["StopAreaNumber"].(string)
+	s.StopAreaName = v["StopAreaName"].(string)
+	s.TimeTabledDateTime = v["TimeTabledDateTime"].(string)
+	s.ExpectedDateTime = v["ExpectedDateTime"].(string)
+	s.DisplayTime = v["DisplayTime"].(string)
+	return s
 }
 
 func m(j interface{}) map[string]interface{} {
