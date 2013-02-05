@@ -1,7 +1,6 @@
 package main
 
 import (
-	"strings"
 	"testing"
 	"net/url"
 	"net/http"
@@ -31,38 +30,13 @@ func (mock *ResponseWriterMock) Write(response []byte) (int, error) {
 
 func (mock *ResponseWriterMock) WriteHeader(int) {}
 
-func TestIndexShouldContainLinkToStation(t *testing.T) {
-	ctx = t
-	result := new(ResponseWriterMock)
-	request := createRequest();
-	index(result, request)
-	assert(strings.Contains(result.getWritten(), `<a href="station/`))
-}
-
-func TestDeparturesIsNotImplemented(t *testing.T) {
-	ctx = t
-	result := new(ResponseWriterMock)
-	request := createRequest();
-	departures(result, request)
-	assert(strings.Contains(result.getWritten(), "not yet"))
-}
-
 func TestCssIsNotImplemented(t *testing.T) {
 	ctx = t
 	result := new(ResponseWriterMock)
 	request := createRequest();
 	assertEqualsString("", result.Header().Get("Content-Type"))
 	css(result, request)
-	assert(strings.Contains(result.getWritten(), "section.table"))
 	assertEqualsString("text/css", result.Header().Get("Content-Type"))
-}
-
-func TestStationShouldContainTable(t *testing.T) {
-	ctx = t
-	result := new(ResponseWriterMock)
-	request := createRequest();
-	station(result, request)
-	assert(strings.Contains(result.getWritten(), `<section class="table">`))
 }
 
 func createRequest() *http.Request {
