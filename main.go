@@ -6,7 +6,7 @@ import (
 )
 
 func index(w http.ResponseWriter, r *http.Request) {
-    fmt.Fprintf(w, `<!DOCTYPE html>` +
+	fmt.Fprintf(w, `<!DOCTYPE html>` +
 		`<html>` +
 		`<head>` +
 		`<title>The Stand Alone Web App</title>` +
@@ -24,7 +24,7 @@ func css(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-    http.HandleFunc("/", index)
+	http.HandleFunc("/", index)
 	http.HandleFunc("/css/", css)
-    http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(":8080", nil)
 }
