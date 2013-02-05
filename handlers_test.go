@@ -9,6 +9,7 @@ import (
 
 type ResponseWriterMock struct {
 	written string
+	header http.Header
 }
 
 func (mock *ResponseWriterMock) getWritten() string {
@@ -16,8 +17,11 @@ func (mock *ResponseWriterMock) getWritten() string {
 }
 
 func (mock *ResponseWriterMock) Header() http.Header {
-	var r http.Header
-	return r
+	if len(mock.header) == 0 {
+		mock.header = make(http.Header)
+	}
+
+	return mock.header
 }
 
 func (mock *ResponseWriterMock) Write(response []byte) (int, error) {
@@ -41,6 +45,16 @@ func TestDeparturesIsNotImplemented(t *testing.T) {
 	request := createRequest();
 	departures(result, request)
 	assert(strings.Contains(result.getWritten(), "not yet"))
+}
+
+func TestCssIsNotImplemented(t *testing.T) {
+	ctx = t
+	result := new(ResponseWriterMock)
+	request := createRequest();
+	assertEqualsString("", result.Header().Get("Content-Type"))
+	css(result, request)
+	assert(strings.Contains(result.getWritten(), "section.table"))
+	assertEqualsString("text/css", result.Header().Get("Content-Type"))
 }
 
 func TestStationShouldContainTable(t *testing.T) {
