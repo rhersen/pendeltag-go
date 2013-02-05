@@ -7,7 +7,15 @@ import (
 )
 
 func main() {
-	key := "get your own at trafiklab.se"
+    http.HandleFunc("/", index)
+	http.HandleFunc("/css/", css)
+	http.HandleFunc("/station/", station)
+	http.HandleFunc("/departures/", departures)
+    http.ListenAndServe(":8080", nil)
+}
+
+func main0() {
+	key := "8589732b19f6c9a78b004aff74f28d98"
 	resp, err := http.Get("https://api.trafiklab.se/sl/realtid/GetDpsDepartures.json?key=" + key + "&siteId=9525&timeWindow=60")
 
 	if err != nil {
@@ -21,7 +29,8 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		Parse(body)
+		parsed := Parse(body)
+		fmt.Println(parsed)
 	}
 
 	resp.Body.Close()

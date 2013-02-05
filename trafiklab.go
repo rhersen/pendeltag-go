@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"encoding/json"
 )
 
@@ -64,8 +63,4 @@ func createStop(v map[string]interface{}) stop {
 
 func m(j interface{}) map[string]interface{} {
 	return j.(map[string]interface{})
-}
-
-func ParseString(body string) {
-	fmt.Println(body)
 }
