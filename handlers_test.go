@@ -39,6 +39,15 @@ func TestIndexShouldStartWithHtml5Doctype(t *testing.T) {
 	assert(strings.HasPrefix(result.getWritten(), "<!DOCTYPE html>"))
 }
 
+func TestIndexShouldHaveTitle(t *testing.T) {
+	ctx = t
+	result := new(ResponseWriterMock)
+	request := createRequest();
+	index(result, request)
+	assert(strings.Contains(result.getWritten(), "<title>"))
+	assert(strings.Contains(result.getWritten(), "Alone"))
+}
+
 func TestCssIsNotImplemented(t *testing.T) {
 	ctx = t
 	result := new(ResponseWriterMock)
