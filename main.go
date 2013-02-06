@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"net/http"
 )
 
@@ -10,17 +11,15 @@ func index(w http.ResponseWriter, r *http.Request) {
 		`<html>` +
 		`<head>` +
 		`<title>The Stand Alone Web App</title>` +
-		`<link rel="stylesheet" href="/css">` +
+		`<link rel="stylesheet" href="/css/">` +
 		`</head>` +
-		`<body>` +
-		`<h1>The Stand Alone Web App</h1>` +
-		`</body>` +
 		`</html>`)
 }
 
 func css(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/css")
-	fmt.Fprintf(w, "body {background-color: #add8e6;}")
+	fmt.Fprintf(w, "body {background-color:rgb(%d,%d,%d);}",
+		rand.Int() & 255, rand.Int() & 255, rand.Int() & 255)
 }
 
 func main() {
