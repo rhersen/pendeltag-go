@@ -1,6 +1,7 @@
 package main
 
 import (
+	"strings"
 	"testing"
 	"net/url"
 	"net/http"
@@ -29,6 +30,14 @@ func (mock *ResponseWriterMock) Write(response []byte) (int, error) {
 }
 
 func (mock *ResponseWriterMock) WriteHeader(int) {}
+
+func TestIndexShouldStartWithHtml5Doctype(t *testing.T) {
+	ctx = t
+	result := new(ResponseWriterMock)
+	request := createRequest();
+	index(result, request)
+	assert(strings.HasPrefix(result.getWritten(), "<!DOCTYPE html>"))
+}
 
 func TestCssIsNotImplemented(t *testing.T) {
 	ctx = t
