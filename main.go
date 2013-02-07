@@ -30,10 +30,15 @@ func index(w http.ResponseWriter, r *http.Request) {
 	ec("body", ec("h1", heading)).write(w)
 }
 
-func css(w http.ResponseWriter, r *http.Request) {
+func css(w http.ResponseWriter, req *http.Request) {
+	r := rand.Int() & 255
+	g := rand.Int() & 255
+	b := rand.Int() & 255
 	w.Header().Set("Content-Type", "text/css")
-	fmt.Fprintf(w, "body {background-color:rgb(%d,%d,%d);}",
-		rand.Int() & 255, rand.Int() & 255, rand.Int() & 255)
+	fmt.Fprintf(w,
+		"body {background-color:rgb(%d,%d,%d);color:rgb(%d,%d,%d);}",
+		r, g, b,
+		g, b, r)
 }
 
 func main() {
