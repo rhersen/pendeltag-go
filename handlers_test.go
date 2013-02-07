@@ -48,6 +48,24 @@ func TestIndexShouldHaveTitle(t *testing.T) {
 	assert(strings.Contains(result.getWritten(), "Alone"))
 }
 
+func TestIndexShouldLinkToStyleSheet(t *testing.T) {
+	ctx = t
+	result := new(ResponseWriterMock)
+	request := createRequest();
+	index(result, request)
+	assert(strings.Contains(result.getWritten(), "link"))
+	assert(strings.Contains(result.getWritten(), "stylesheet"))
+}
+
+func TestAttributesShouldHaveSpaceBefore(t *testing.T) {
+	ctx = t
+	result := new(ResponseWriterMock)
+	request := createRequest();
+	index(result, request)
+	assert(strings.Contains(result.getWritten(), " rel"))
+
+}
+
 func TestCssIsNotImplemented(t *testing.T) {
 	ctx = t
 	result := new(ResponseWriterMock)

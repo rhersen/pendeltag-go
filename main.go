@@ -6,32 +6,14 @@ import (
 	"net/http"
 )
 
-type writer interface {
-	write(http.ResponseWriter)
-}
-
-type text string
-
-func (t text) write(w http.ResponseWriter) {
-	fmt.Fprint(w, t)
-}
-
-type element struct {
-	name text
-	child writer
-}
-
-func (e element) write(w http.ResponseWriter) {
-	fmt.Fprintf(w, "<%s>", e.name)
-	e.child.write(w)
-	fmt.Fprintf(w, "</%s>", e.name)
-}
-
 func index(w http.ResponseWriter, r *http.Request) {
 	heading := text("The Stand Alone Web App")
 	fmt.Fprintf(w, "<!DOCTYPE html>")
-	element{"head", element{"title", heading}}.write(w)
-	element{"body", element{"h1", heading}}.write(w)
+	element{"head", []writer{
+			element{"title", []writer{heading}, map[string]string{}},
+			element{"link", []writer{}, map[string]string{"rel":"stylesheet","href":"/css/"}}},
+		map[string]string{}}.write(w)
+	element{"body", []writer{element{"h1", []writer{heading}, map[string]string{}}}, map[string]string{}}.write(w)
 }
 
 func css(w http.ResponseWriter, r *http.Request) {
