@@ -45,7 +45,6 @@ func TestIndexShouldHaveTitle(t *testing.T) {
 	request := createRequest();
 	index(result, request)
 	assert(strings.Contains(result.getWritten(), "<title>"))
-	assert(strings.Contains(result.getWritten(), "Alone"))
 }
 
 func TestIndexShouldLinkToStyleSheet(t *testing.T) {
@@ -66,13 +65,15 @@ func TestAttributesShouldHaveSpaceBefore(t *testing.T) {
 
 }
 
-func TestCssIsNotImplemented(t *testing.T) {
+func TestCssMustHaveContentType(t *testing.T) {
 	ctx = t
 	result := new(ResponseWriterMock)
 	request := createRequest();
 	assertEqualsString("", result.Header().Get("Content-Type"))
 	css(result, request)
 	assertEqualsString("text/css", result.Header().Get("Content-Type"))
+	assert(strings.Contains(result.getWritten(), "body"))
+	assert(strings.Contains(result.getWritten(), "color"))
 }
 
 func createRequest() *http.Request {
