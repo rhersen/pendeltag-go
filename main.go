@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 	"net/http"
 )
 
@@ -17,6 +18,36 @@ func ea(name string, attributes map[string]string) writer {
 	return element{name, []writer{}, attributes}
 }
 
+func p(p int) text {
+	return text(strconv.Itoa(p) + " ")
+}
+
+func isPrime(n int) bool {
+	if n < 4 {
+		return true
+	}
+
+	for i := 2; i * i <= n; i++ {
+		if n % i == 0 {
+			return false
+		}
+	}
+
+	return true
+}
+
+func primes(limit int) writer {
+	children := []writer{}
+
+	for i := 2; i < limit; i++ {
+		if isPrime(i) {
+			children = append(children, ec("span", p(i)))
+		}
+	}
+
+	return element{"ol", children, a0()}
+}
+
 func index(w http.ResponseWriter, r *http.Request) {
 	heading := text("This web app does not use any files.")
 	fmt.Fprintf(w, "<!DOCTYPE html>")
@@ -26,7 +57,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 		"href":"/css/"}
 
 	ec("head", ec("title", heading), ea("link", linkAttributes)).html(w)
-	ec("body", ec("h1", heading)).html(w)
+	ec("body", ec("h1", heading), primes(99999)).html(w)
 }
 
 func css(w http.ResponseWriter, req *http.Request) {

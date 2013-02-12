@@ -47,6 +47,19 @@ func TestIndexShouldHaveTitle(t *testing.T) {
 	assert(strings.Contains(result.getWritten(), "<title>"))
 }
 
+func TestIndexShouldHavePrimes(t *testing.T) {
+	ctx = t
+	result := new(ResponseWriterMock)
+	request := createRequest();
+	index(result, request)
+	assert(strings.Contains(result.getWritten(), ">2"))
+	assert(strings.Contains(result.getWritten(), ">3"))
+	assert(!strings.Contains(result.getWritten(), ">4<"))
+	assert(strings.Contains(result.getWritten(), ">5"))
+	assert(!strings.Contains(result.getWritten(), ">9<"))
+	assert(strings.Contains(result.getWritten(), ">11"))
+}
+
 func TestIndexShouldLinkToStyleSheet(t *testing.T) {
 	ctx = t
 	result := new(ResponseWriterMock)
