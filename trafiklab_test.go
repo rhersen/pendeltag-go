@@ -1,6 +1,7 @@
 package main
 
 import (
+	"strings"
 	"testing"
 	"io/ioutil"
 )
@@ -42,4 +43,13 @@ func TestShouldHandleEmptyResponse(t *testing.T) {
 	fixture, err := ioutil.ReadFile("empty.json")
 	assert(err == nil)
 	assertEqualsInt(0, len(Parse(fixture)))
+}
+
+func TestShouldConvertToJson(t *testing.T) {
+	ctx = t
+	fixture, err := ioutil.ReadFile("huddinge.json")
+	assert(err == nil)
+	json := ToJson(fixture)
+	jsonString := string(json)
+	assert(strings.Contains(jsonString, `:"Huddinge"`))
 }

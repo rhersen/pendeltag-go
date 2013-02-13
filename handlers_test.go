@@ -39,15 +39,7 @@ func TestIndexShouldContainLinkToStation(t *testing.T) {
 	assert(strings.Contains(result.getWritten(), `<a href="station/`))
 }
 
-func TestDeparturesIsNotImplemented(t *testing.T) {
-	ctx = t
-	result := new(ResponseWriterMock)
-	request := createRequest();
-	departures(result, request)
-	assert(strings.Contains(result.getWritten(), "not yet"))
-}
-
-func TestCssIsNotImplemented(t *testing.T) {
+func TestCss(t *testing.T) {
 	ctx = t
 	result := new(ResponseWriterMock)
 	request := createRequest();
@@ -63,6 +55,15 @@ func TestStationShouldContainTable(t *testing.T) {
 	request := createRequest();
 	station(result, request)
 	assert(strings.Contains(result.getWritten(), `<section class="table">`))
+}
+
+func TestJsShouldNotContainTable(t *testing.T) {
+	ctx = t
+	result := new(ResponseWriterMock)
+	request := createRequest();
+	js(result, request)
+	assert(!strings.Contains(result.getWritten(), `<section class="table">`))
+	assertEqualsString("application/javascript", result.Header().Get("Content-Type"))
 }
 
 func createRequest() *http.Request {

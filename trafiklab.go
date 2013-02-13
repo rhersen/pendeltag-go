@@ -20,6 +20,11 @@ type stop struct {
 	DisplayTime string
 }
 
+func ToJson(body []byte) []byte {
+	r, _ := json.Marshal(Parse(body))
+	return r
+}
+
 func Parse(body []byte) []train {
 	r := []train{}
 	for _, t := range getJsonTrains(body) {
