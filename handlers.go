@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"strings"
 	"io/ioutil"
 	"net/http"
@@ -47,9 +48,17 @@ func index(w http.ResponseWriter, r *http.Request) {
 
 func departures(w http.ResponseWriter, r *http.Request) {
 	id := strings.Split(r.URL.Path, "/")[2]
-	key := "get your own"
+	key := "Unauthorized"
 
 	resp, err := http.Get("https://api.trafiklab.se/sl/realtid/GetDpsDepartures.json?key=" + key + "&siteId=" + id + "&timeWindow=60")
+
+	if resp.StatusCode == 401 {
+		fmt.Println("Du måste skaffa en nyckel på trafiklab.se")
+		os.Exit(1)
+	} else if resp.StatusCode != 200 {
+		fmt.Println(resp)
+		os.Exit(2)
+	}
 
 	if err != nil {
 		fmt.Println(err)
