@@ -54,7 +54,7 @@ func TestStationShouldContainTable(t *testing.T) {
 	result := new(ResponseWriterMock)
 	request := createRequest();
 	station(result, request)
-	assert(strings.Contains(result.getWritten(), `<section class="table">`))
+	assert(strings.Contains(result.getWritten(), `<span id="id">9530</span>`))
 }
 
 func TestJsShouldNotContainTable(t *testing.T) {
@@ -69,6 +69,7 @@ func TestJsShouldNotContainTable(t *testing.T) {
 func createRequest() *http.Request {
 	r := new(http.Request)
 	url := new(url.URL)
+	url.Path = "/station/9530"
 	r.URL = url
 	return r
 }

@@ -13,6 +13,7 @@ type train struct {
 }
 
 type stop struct {
+	SiteId int
 	StopAreaNumber string
 	StopAreaName string
 	TimeTabledDateTime string
@@ -58,6 +59,7 @@ func createTrain(j interface{}) train {
 
 func createStop(v map[string]interface{}) stop {
 	var s stop
+	s.SiteId = int(v["SiteId"].(float64))
 	s.StopAreaNumber = v["StopAreaNumber"].(string)
 	s.StopAreaName = v["StopAreaName"].(string)
 	s.TimeTabledDateTime = v["TimeTabledDateTime"].(string)

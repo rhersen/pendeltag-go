@@ -33,6 +33,7 @@ func TestShouldReturnStationSpecificFields(t *testing.T) {
 	stop := Parse(fixture)[0].Stops[0]
 	assertEqualsString("0", stop.StopAreaNumber)
 	assertEqualsString("Huddinge", stop.StopAreaName)
+	assertEqualsInt(9527, stop.SiteId)
 	assertEqualsString("2013-01-02T13:17:00", stop.TimeTabledDateTime)
 	assertEqualsString("2013-01-02T13:17:19", stop.ExpectedDateTime)
 	assertEqualsString("1 min", stop.DisplayTime)
