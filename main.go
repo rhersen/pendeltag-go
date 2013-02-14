@@ -10,5 +10,5 @@ func main() {
 	http.HandleFunc("/js/", js)
 	http.HandleFunc("/station/", station)
 	http.HandleFunc("/departures/", departures)
-    http.ListenAndServe(":8080", nil)
+    http.ListenAndServe(":4000", nil)
 }
